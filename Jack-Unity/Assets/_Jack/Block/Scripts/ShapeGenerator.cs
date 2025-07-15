@@ -8,6 +8,9 @@ public static class ShapeGenerator
         shapes.AddRange(Shape_ThinLine.Generate());
         shapes.AddRange(Shape_Rect.Generate());
         shapes.AddRange(Shape_Square.Generate());
+        shapes.AddRange(Shape_Z.Generate());
+        shapes.AddRange(Shape_T.Generate());
+        shapes.AddRange(Shape_L.Generate());
         return shapes;
     }
 }

@@ -12,14 +12,36 @@ public class BlockData : ScriptableObject
         int width = newShape.GetLength(0);
         int height = newShape.GetLength(1);
 
-        size = new Vector2Int(width, height);
-        shape = new bool[width, height];
+        // 有効領域の最小・最大座標
+        int minX = width, minY = height;
+        int maxX = -1, maxY = -1;
 
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
             {
-                shape[x, y] = newShape[x, y];
+                if (newShape[x, y])
+                {
+                    if (x < minX) minX = x;
+                    if (y < minY) minY = y;
+                    if (x > maxX) maxX = x;
+                    if (y > maxY) maxY = y;
+                }
+            }
+        }
+
+        // 切り出すサイズ
+        int newWidth = maxX - minX + 1;
+        int newHeight = maxY - minY + 1;
+
+        size = new Vector2Int(newWidth, newHeight);
+        shape = new bool[newWidth, newHeight];
+
+        for (int y = 0; y < newHeight; y++)
+        {
+            for (int x = 0; x < newWidth; x++)
+            {
+                shape[x, y] = newShape[minX + x, minY + y];
             }
         }
     }
