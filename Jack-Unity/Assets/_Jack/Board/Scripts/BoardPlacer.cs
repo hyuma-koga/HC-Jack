@@ -1,8 +1,9 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BoardPlacer : MonoBehaviour
 {
-    [SerializeField] private int boardSize = 7;
+    [SerializeField] private int boardSize = 8;
 
     private bool[,]              occupied;
 
@@ -58,5 +59,94 @@ public class BoardPlacer : MonoBehaviour
                 }
             }
         }
+    }
+
+    public List<int> GetFullRows()
+    {
+        var fullRows = new List<int>();
+
+        for (int y = 0; y < boardSize; y++)
+        {
+            bool isFull = true;
+
+            for (int x = 0; x < boardSize; x++)
+            {
+                if (!occupied[x, y])
+                {
+                    isFull = false;
+                    break;
+                }
+            }
+
+            if (isFull)
+            {
+                fullRows.Add(y);
+            }
+        }
+
+        return fullRows;
+    }
+
+    public List<int> GetFullColumns()
+    {
+        var fullCols = new List<int>();
+
+        for (int x = 0; x < boardSize; x++)
+        {
+            bool isFull = true;
+
+            for (int y = 0; y < boardSize; y++)
+            {
+                if (!occupied[x, y])
+                {
+                    isFull = false;
+                    break;
+                }
+            }
+
+            if (isFull)
+            {
+                fullCols.Add(x);
+            }
+        }
+
+        return fullCols;
+    }
+
+    public void ClearRows(List<int> rows)
+    {
+        foreach (var y in rows)
+        {
+            for (int x = 0; x < boardSize; x++)
+            {
+                occupied[x, y] = false;
+            }
+        }
+    }
+
+    public void ClearColumns(List<int> columns)
+    {
+        foreach (var x in columns)
+        {
+            for (int y = 0; y < boardSize; y++)
+            {
+                occupied[x, y] = false;
+            }
+        }
+    }
+
+    public void SetOccupied(int x, int y, bool value)
+    {
+        if (occupied == null)
+        {
+            return;
+        }
+
+        if (x < 0 || x >= boardSize || y < 0 || y >= boardSize)
+        {
+            return;
+        }
+
+        occupied[x, y] = value;
     }
 }

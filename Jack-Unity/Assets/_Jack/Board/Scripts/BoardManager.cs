@@ -5,8 +5,8 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private BoardGenerator generator;
     [SerializeField] private BoardPlacer    placer;
     [SerializeField] private Transform      boardSpawnPoint;
-    [SerializeField] private float          cellSize = 0.5f;
     [SerializeField] private Transform      boardBlocksRoot;
+    [SerializeField] private float          cellSize = 0.5f;
 
     public Transform BoardBlocksRoot => boardBlocksRoot;
     public Vector3   BoardOrigin => boardSpawnPoint != null ? boardSpawnPoint.position : Vector3.zero;
@@ -51,5 +51,10 @@ public class BoardManager : MonoBehaviour
         int gridY = Mathf.RoundToInt(-localPos.y / cellSize);
 
         return new Vector2Int(gridX, gridY);
+    }
+
+    public BoardPlacer GetPlacer()
+    {
+        return placer;
     }
 }

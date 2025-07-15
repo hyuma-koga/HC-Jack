@@ -7,9 +7,9 @@ public class BoardGenerator : MonoBehaviour
     [SerializeField] private float      cellSpacing = 1.0f;
     [SerializeField] private Transform  boardSpawnPoint;
 
-    public int BoardSize => boardSize;
-    public float CellSpacing => cellSpacing;
-
+    public float                        CellSpacing => cellSpacing;
+    public int                          BoardSize => boardSize;
+   
     //ボードのセルを生成する
     public void GenerateBoard()
     {
