@@ -19,6 +19,8 @@ public class BlockDraggable : MonoBehaviour
             return;
         }
 
+        SetScale(1f);
+
         startPosition = transform.position;
 
         Vector3 mouseWorldPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
@@ -66,9 +68,9 @@ public class BlockDraggable : MonoBehaviour
            
             //親をボードのブロックルートに変更
             transform.SetParent(boardManager.BoardBlocksRoot);
-
             isLocked = true;
 
+            //行列チェック
             var fullRows = placer.GetFullRows();
             var fullCols = placer.GetFullColumns();
 
@@ -76,16 +78,13 @@ public class BlockDraggable : MonoBehaviour
             {
                 placer.ClearRows(fullRows);
                 remover.RemoveBlocksInRows(fullRows, boardManager);
-                Debug.Log($"行を削除: {fullRows.Count}");
-                //スコア加算処理
+                
             }
 
             if (fullCols.Count > 0)
             {
                 placer.ClearColumns(fullCols);
                 remover.RemoveBlocksInColumns(fullCols, boardManager);
-                Debug.Log($"列を削除: {fullCols.Count}");
-                //スコア加算処理
             }
 
             var spawner = FindFirstObjectByType<BlockSpawner>();
@@ -98,6 +97,12 @@ public class BlockDraggable : MonoBehaviour
         else
         {
             transform.position = startPosition;
+            SetScale(0.5f);
         }
+    }
+
+    public void SetScale(float scale)
+    {
+        transform.localScale = new Vector3(scale, scale, 1f);
     }
 }

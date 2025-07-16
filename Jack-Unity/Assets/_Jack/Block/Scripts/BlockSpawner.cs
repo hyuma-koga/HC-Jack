@@ -28,6 +28,7 @@ public class BlockSpawner : MonoBehaviour
                 return false;
             }
         }
+
         return true;
     }
 
@@ -37,16 +38,20 @@ public class BlockSpawner : MonoBehaviour
 
         for (int i = 0; i < spawnPoints.Length && i < blockDataList.Length; i++)
         {
-            // BlockData をコピー
             var data = ScriptableObject.Instantiate(blockDataList[i]);
-
-            // 形状をランダム設定
             var randomShape = shapes[Random.Range(0, shapes.Count)];
             data.SetShape(randomShape);
 
             var block = factory.CreateBlock(data);
             block.transform.SetParent(spawnPoints[i], false);
             block.transform.localPosition = Vector3.zero;
+
+            var draggable = block.GetComponent<BlockDraggable>();
+
+            if (draggable != null)
+            {
+                draggable.SetScale(0.5f);
+            }
         }
     }
 }
