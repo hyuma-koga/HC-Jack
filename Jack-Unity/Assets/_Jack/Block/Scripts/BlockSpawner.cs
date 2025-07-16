@@ -11,14 +11,6 @@ public class BlockSpawner : MonoBehaviour
         SpawnBlocks();
     }
 
-    public void OnBlockPlaced()
-    {
-        if (AllPointsEmpty())
-        {
-            SpawnBlocks();
-        }
-    }
-
     private bool AllPointsEmpty()
     {
         foreach (var point in spawnPoints)
@@ -32,9 +24,16 @@ public class BlockSpawner : MonoBehaviour
         return true;
     }
 
-    private void SpawnBlocks()
+    public void SpawnBlocks()
     {
         var shapes = ShapeGenerator.GenerateAllShapes();
+
+        // スコアマネージャにターン開始通知
+        var scoreManager = FindFirstObjectByType<ScoreManager>();
+        if (scoreManager != null)
+        {
+            scoreManager.StartTurn();
+        }
 
         for (int i = 0; i < spawnPoints.Length && i < blockDataList.Length; i++)
         {
@@ -47,11 +46,24 @@ public class BlockSpawner : MonoBehaviour
             block.transform.localPosition = Vector3.zero;
 
             var draggable = block.GetComponent<BlockDraggable>();
-
             if (draggable != null)
             {
                 draggable.SetScale(0.5f);
             }
+        }
+    }
+
+    public void OnBlockPlaced()
+    {
+        if (AllPointsEmpty())
+        {
+            var scoreManager = FindFirstObjectByType<ScoreManager>();
+            if (scoreManager != null)
+            {
+                scoreManager.EndTurn();
+            }
+
+            SpawnBlocks();
         }
     }
 }

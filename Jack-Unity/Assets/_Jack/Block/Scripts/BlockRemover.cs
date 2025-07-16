@@ -5,21 +5,16 @@ public class BlockRemover : MonoBehaviour
 {
     [SerializeField] private Transform boardBlocksRoot;
 
-    public void RemoveBlocksInRows(List<int> rows, BoardManager boardManager)
+    public int RemoveBlocksInRows(List<int> rows, BoardManager boardManager)
     {
+        int removedCells = 0;
+
         foreach (Transform block in boardBlocksRoot)
         {
             var comp = block.GetComponent<BlockComponent>();
-
-            if (comp == null)
-            {
-                continue;
-            }
-
-            Vector2Int gridPos = boardManager.WorldToGrid(block.position);
+            if (comp == null) continue;
 
             var unitList = new List<Transform>();
-
             foreach (Transform child in block)
             {
                 unitList.Add(child);
@@ -34,25 +29,23 @@ public class BlockRemover : MonoBehaviour
                 {
                     Destroy(child.gameObject);
                     boardManager.GetPlacer().SetOccupied(childGrid.x, childGrid.y, false);
+                    removedCells++;
                 }
             }
         }
+        return removedCells;
     }
 
-    public void RemoveBlocksInColumns(List<int> columns, BoardManager boardManager)
+    public int RemoveBlocksInColumns(List<int> columns, BoardManager boardManager)
     {
+        int removedCells = 0;
+
         foreach (Transform block in boardBlocksRoot)
         {
             var comp = block.GetComponent<BlockComponent>();
-            if (comp == null)
-            {
-                continue;
-            }
-
-            Vector2Int gridPos = boardManager.WorldToGrid(block.position);
+            if (comp == null) continue;
 
             var unitList = new List<Transform>();
-
             foreach (Transform child in block)
             {
                 unitList.Add(child);
@@ -67,8 +60,10 @@ public class BlockRemover : MonoBehaviour
                 {
                     Destroy(child.gameObject);
                     boardManager.GetPlacer().SetOccupied(childGrid.x, childGrid.y, false);
+                    removedCells++;
                 }
             }
         }
+        return removedCells;
     }
 }

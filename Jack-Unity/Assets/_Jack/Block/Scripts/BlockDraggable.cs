@@ -20,7 +20,6 @@ public class BlockDraggable : MonoBehaviour
         }
 
         SetScale(1f);
-
         startPosition = transform.position;
 
         Vector3 mouseWorldPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
@@ -48,8 +47,9 @@ public class BlockDraggable : MonoBehaviour
         var boardManager = FindFirstObjectByType<BoardManager>();
         var placer = boardManager.GetPlacer();
         var remover = boardManager.GetComponent<BlockRemover>();
+        var scoreManager = FindFirstObjectByType<ScoreManager>();
 
-        if (boardManager == null || placer == null || remover == null)
+        if (boardManager == null || placer == null || remover == null || scoreManager == null)
         {
             return;
         }
@@ -65,20 +65,24 @@ public class BlockDraggable : MonoBehaviour
             float snappedX = gridX * boardManager.CellSize + boardManager.BoardOrigin.x;
             float snappedY = -gridY * boardManager.CellSize + boardManager.BoardOrigin.y;
             transform.position = new Vector3(snappedX, snappedY, transform.position.z);
-           
-            //親をボードのブロックルートに変更
+
+            // 親をボードのブロックルートに変更
             transform.SetParent(boardManager.BoardBlocksRoot);
             isLocked = true;
 
-            //行列チェック
+            // 行列チェック
             var fullRows = placer.GetFullRows();
             var fullCols = placer.GetFullColumns();
+
+            int linesCleared = fullRows.Count + fullCols.Count;
+            int blockCells = CountFilledCells(blockData.shape);
+
+            scoreManager.AddPlaceScore(blockCells);
 
             if (fullRows.Count > 0)
             {
                 placer.ClearRows(fullRows);
                 remover.RemoveBlocksInRows(fullRows, boardManager);
-                
             }
 
             if (fullCols.Count > 0)
@@ -87,8 +91,9 @@ public class BlockDraggable : MonoBehaviour
                 remover.RemoveBlocksInColumns(fullCols, boardManager);
             }
 
-            var spawner = FindFirstObjectByType<BlockSpawner>();
+            scoreManager.AddLineClearScore(linesCleared);
 
+            var spawner = FindFirstObjectByType<BlockSpawner>();
             if (spawner != null)
             {
                 spawner.OnBlockPlaced();
@@ -99,6 +104,25 @@ public class BlockDraggable : MonoBehaviour
             transform.position = startPosition;
             SetScale(0.5f);
         }
+    }
+
+    private int CountFilledCells(bool[,] shape)
+    {
+        int count = 0;
+        int width = shape.GetLength(0);
+        int height = shape.GetLength(1);
+
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                if (shape[x, y])
+                {
+                    count++;
+                }
+            }
+        }
+        return count;
     }
 
     public void SetScale(float scale)
