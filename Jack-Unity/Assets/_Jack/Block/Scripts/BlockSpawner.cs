@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BlockSpawner : MonoBehaviour
 {
@@ -28,7 +28,7 @@ public class BlockSpawner : MonoBehaviour
     {
         var shapes = ShapeGenerator.GenerateAllShapes();
 
-        // �X�R�A�}�l�[�W���Ƀ^�[���J�n�ʒm
+        // スコアマネージャにターン開始通知
         var scoreManager = FindFirstObjectByType<ScoreManager>();
         if (scoreManager != null)
         {
@@ -55,6 +55,11 @@ public class BlockSpawner : MonoBehaviour
 
     public void OnBlockPlaced()
     {
+        var boardManager = FindFirstObjectByType<BoardManager>();
+        var placer = boardManager.GetPlacer();
+        var gameOverManager = FindFirstObjectByType<GameOverManager>();
+
+        // すべて使い切った場合は判定スキップ
         if (AllPointsEmpty())
         {
             var scoreManager = FindFirstObjectByType<ScoreManager>();
@@ -64,6 +69,33 @@ public class BlockSpawner : MonoBehaviour
             }
 
             SpawnBlocks();
+            return; // ← これ重要！！ ここで以降の処理を止める
+        }
+
+        // 残りブロック確認（ターン中）
+        bool canPlaceAny = false;
+        foreach (var spawnPoint in spawnPoints)
+        {
+            if (spawnPoint.childCount == 0) continue;
+
+            var block = spawnPoint.GetChild(0);
+            var data = block.GetComponent<BlockComponent>().data;
+
+            if (placer.CanPlaceBlockAnywhere(data.shape))
+            {
+                canPlaceAny = true;
+                break;
+            }
+        }
+
+        // 残りがすべて置けないならゲームオーバー
+        if (!canPlaceAny)
+        {
+            if (gameOverManager != null)
+            {
+                gameOverManager.TriggerGameOver();
+            }
+            return;
         }
     }
 }

@@ -149,4 +149,22 @@ public class BoardPlacer : MonoBehaviour
 
         occupied[x, y] = value;
     }
+
+    public bool CanPlaceBlockAnywhere(bool[,] shape)
+{
+    int boardSize = occupied.GetLength(0);
+
+    for (int y = 0; y <= boardSize - shape.GetLength(1); y++)
+    {
+        for (int x = 0; x <= boardSize - shape.GetLength(0); x++)
+        {
+            if (CanPlaceBlock(shape, x, y))
+            {
+                return true; // ’u‚¯‚éêŠ‚ª‚ ‚é
+            }
+        }
+    }
+    return false; // ‚Ç‚±‚É‚à’u‚¯‚È‚¢
+}
+
 }
