@@ -65,4 +65,9 @@ public class BoardManager : MonoBehaviour
             Destroy(child.gameObject);
         }
     }
+
+    public Vector3 GridToWorld(Vector2Int gridPos)
+    {
+        return BoardOrigin + new Vector3(gridPos.x * cellSize, -gridPos.y * cellSize, 0f);
+    }
 }

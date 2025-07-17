@@ -178,4 +178,32 @@ public class BoardPlacer : MonoBehaviour
             }
         }
     }
+
+    public List<Vector2Int> GetClearedPositions(List<int> fullRows, List<int> fullCols)
+    {
+        var cleared = new List<Vector2Int>();
+
+        foreach (var y in fullRows)
+        {
+            for (int x = 0; x < boardSize; x++)
+            {
+                cleared.Add(new Vector2Int(x, y));
+            }
+        }
+
+        foreach (var x in fullCols)
+        {
+            for (int y = 0; y < boardSize; y++)
+            {
+                Vector2Int pos = new Vector2Int(x, y);
+                if (!cleared.Contains(pos))
+                {
+                    cleared.Add(pos);
+                }
+            }
+        }
+
+        return cleared;
+    }
+
 }

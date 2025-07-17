@@ -5,14 +5,13 @@ public class ScoreManager : MonoBehaviour
 {
     [SerializeField] private TMP_Text     scoreText;
     [SerializeField] private ComboManager comboManager;
+    [SerializeField] private ComboPopupUI comboPopupUI;
 
     public int                            CurrentScore => currentScore;
     public int                            BestScore => bestScore;
     private int                           currentScore = 0;
     private int                           bestScore = 0;
     private bool                          lineClearedThisTurn = false;
-
-
 
     private void Start()
     {
@@ -27,7 +26,7 @@ public class ScoreManager : MonoBehaviour
         UpdateScoreUI();
     }
 
-    public void AddLineClearScore(int linesCleared)
+    public void AddLineClearScore(int linesCleared, Vector3 popupPos)
     {
         if (linesCleared <= 0) return;
 
@@ -42,13 +41,20 @@ public class ScoreManager : MonoBehaviour
             _ => linesCleared * 100
         };
 
-        int comboBonus = comboManager.GetComboCount() * baseLineScore;
+        int comboCount = comboManager.GetComboCount();
+        int comboBonus = comboCount * baseLineScore;
         int totalScore = baseLineScore + comboBonus;
 
         currentScore += totalScore;
         lineClearedThisTurn = true;
 
         comboManager.AddCombo(linesCleared);
+
+        //  ポップアップ表示
+        if (comboPopupUI != null)
+        {
+            comboPopupUI.ShowPopup(popupPos, comboCount, totalScore);
+        }
 
         UpdateBestScore();
         UpdateScoreUI();
@@ -82,7 +88,7 @@ public class ScoreManager : MonoBehaviour
         if (scoreText != null)
         {
             int displayCombo = Mathf.Max(comboManager.GetComboCount() - 1, 0);
-            scoreText.text = $"{currentScore} {displayCombo}";
+            scoreText.text = $"{currentScore}";
         }
     }
 

@@ -91,7 +91,11 @@ public class BlockDraggable : MonoBehaviour
                 remover.RemoveBlocksInColumns(fullCols, boardManager);
             }
 
-            scoreManager.AddLineClearScore(linesCleared);
+            if (linesCleared > 0)
+            {
+                Vector3 popupPos = CalculatePopupPosition(boardManager, fullRows, fullCols);
+                scoreManager.AddLineClearScore(linesCleared, popupPos);
+            }
 
             var spawner = FindFirstObjectByType<BlockSpawner>();
             if (spawner != null)
@@ -129,4 +133,41 @@ public class BlockDraggable : MonoBehaviour
     {
         transform.localScale = new Vector3(scale, scale, 1f);
     }
+
+    private Vector3 CalculatePopupPosition(BoardManager boardManager, System.Collections.Generic.List<int> fullRows, System.Collections.Generic.List<int> fullCols)
+    {
+        Vector3 totalPos = Vector3.zero;
+        int count = 0;
+
+        float cellSize = boardManager.CellSize;
+        Vector3 origin = boardManager.BoardOrigin;
+
+        // 行の中心を加算
+        foreach (int y in fullRows)
+        {
+            for (int x = 0; x < 8; x++)  // boardSize = 8
+            {
+                float px = origin.x + x * cellSize;
+                float py = origin.y - y * cellSize;
+                totalPos += new Vector3(px, py, 0);
+                count++;
+            }
+        }
+
+        // 列の中心を加算（重複してもOK）
+        foreach (int x in fullCols)
+        {
+            for (int y = 0; y < 8; y++)
+            {
+                float px = origin.x + x * cellSize;
+                float py = origin.y - y * cellSize;
+                totalPos += new Vector3(px, py, 0);
+                count++;
+            }
+        }
+
+        if (count == 0) return origin;
+        return totalPos / count;
+    }
+
 }
