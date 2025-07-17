@@ -3,22 +3,28 @@ using TMPro;
 
 public class ScoreManager : MonoBehaviour
 {
-    [SerializeField] private TMP_Text scoreText;
+    [SerializeField] private TMP_Text     scoreText;
     [SerializeField] private ComboManager comboManager;
 
-    private int currentScore = 0;
-    private bool lineClearedThisTurn = false;
+    public int                            CurrentScore => currentScore;
+    public int                            BestScore => bestScore;
+    private int                           currentScore = 0;
+    private int                           bestScore = 0;
+    private bool                          lineClearedThisTurn = false;
+
+
 
     private void Start()
     {
+        LoadBestScore();
         UpdateScoreUI();
     }
 
     public void AddPlaceScore(int blockCells)
     {
         currentScore += blockCells;
+        UpdateBestScore();
         UpdateScoreUI();
-        Debug.Log($"配置スコア: +{blockCells}");
     }
 
     public void AddLineClearScore(int linesCleared)
@@ -40,14 +46,12 @@ public class ScoreManager : MonoBehaviour
         int totalScore = baseLineScore + comboBonus;
 
         currentScore += totalScore;
-
         lineClearedThisTurn = true;
 
         comboManager.AddCombo(linesCleared);
 
+        UpdateBestScore();
         UpdateScoreUI();
-
-        Debug.Log($"行列スコア: Base: {baseLineScore}, Combo: {comboBonus}, Total: +{totalScore}");
     }
 
     public void StartTurn()
@@ -66,6 +70,13 @@ public class ScoreManager : MonoBehaviour
         UpdateScoreUI();
     }
 
+    public void ResetScore()
+    {
+        currentScore = 0;
+        comboManager.ResetCombo();
+        UpdateScoreUI();
+    }
+
     private void UpdateScoreUI()
     {
         if (scoreText != null)
@@ -73,5 +84,25 @@ public class ScoreManager : MonoBehaviour
             int displayCombo = Mathf.Max(comboManager.GetComboCount() - 1, 0);
             scoreText.text = $"{currentScore} {displayCombo}";
         }
+    }
+
+    private void UpdateBestScore()
+    {
+        if (currentScore > bestScore)
+        {
+            bestScore = currentScore;
+            SaveBestScore();
+        }
+    }
+
+    private void SaveBestScore()
+    {
+        PlayerPrefs.SetInt("BestScore", bestScore);
+        PlayerPrefs.Save();
+    }
+
+    private void LoadBestScore()
+    {
+        bestScore = PlayerPrefs.GetInt("BestScore", 0);
     }
 }

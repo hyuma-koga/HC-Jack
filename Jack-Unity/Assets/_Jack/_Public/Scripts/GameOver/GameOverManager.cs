@@ -2,25 +2,30 @@ using UnityEngine;
 
 public class GameOverManager : MonoBehaviour
 {
-    [SerializeField] private GameObject gameOverPanel;
+    [SerializeField] private GameOverUI      gameOverUI;
+    [SerializeField] private GameFlowManager gameFlowManager;
+
     private BoardManager boardManager;
-    private BoardPlacer placer;
+    private BoardPlacer  placer;
     private BlockSpawner spawner;
+    private bool         isGameOver = false;
+
 
     private void Awake()
     {
         boardManager = FindFirstObjectByType<BoardManager>();
         placer = boardManager.GetPlacer();
         spawner = FindFirstObjectByType<BlockSpawner>();
-
-        if (gameOverPanel != null)
-        {
-            gameOverPanel.SetActive(false);
-        }
+        gameOverUI?.Hide();
     }
 
     public void CheckGameOver(Transform[] spawnPoints)
     {
+        if (isGameOver)
+        {
+            return;
+        }
+
         foreach (var spawnPoint in spawnPoints)
         {
             if (spawnPoint.childCount == 0) continue;
@@ -40,23 +45,25 @@ public class GameOverManager : MonoBehaviour
     public void TriggerGameOver()
     {
         Debug.Log("Game Over!");
-        if (gameOverPanel != null)
-        {
-            gameOverPanel.SetActive(true);
-        }
+
+        isGameOver = true;
+
+        gameFlowManager?.OnGameOver();
+        gameOverUI?.Show();
     }
 
     public void Retry()
     {
         Debug.Log("Retry!");
-        if (gameOverPanel != null)
-        {
-            gameOverPanel.SetActive(false);
-        }
+
+        isGameOver = false;
+        gameOverUI?.Hide();
     }
 
     public void BackToTitle()
     {
         Debug.Log("Back to Title!");
+        isGameOver = false;
+        gameOverUI?.Hide();
     }
 }
