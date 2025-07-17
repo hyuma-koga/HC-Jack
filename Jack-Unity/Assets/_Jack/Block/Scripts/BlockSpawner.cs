@@ -51,11 +51,35 @@ public class BlockSpawner : MonoBehaviour
                 draggable.SetScale(0.5f);
             }
         }
+        // 🔽 新しく追加：Spawn後すぐチェック
+        Invoke(nameof(CheckGameOverAfterSpawn), 0.1f); // 少し遅延してから確認（生成が完了してから）
+    }
 
+    private void CheckGameOverAfterSpawn()
+    {
+        var boardManager = FindFirstObjectByType<BoardManager>();
+        var placer = boardManager.GetPlacer();
         var gameOverManager = FindFirstObjectByType<GameOverManager>();
-        if (gameOverManager != null)
+
+        bool canPlaceAny = false;
+
+        foreach (var spawnPoint in spawnPoints)
         {
-            gameOverManager.CheckGameOver(spawnPoints);
+            if (spawnPoint.childCount == 0) continue;
+
+            var block = spawnPoint.GetChild(0);
+            var data = block.GetComponent<BlockComponent>().data;
+
+            if (placer.CanPlaceBlockAnywhere(data.shape))
+            {
+                canPlaceAny = true;
+                break;
+            }
+        }
+
+        if (!canPlaceAny && gameOverManager != null)
+        {
+            gameOverManager.TriggerGameOver(); // ★ アニメーション付きでゲームオーバー
         }
     }
 
