@@ -98,4 +98,18 @@ public class BlockSpawner : MonoBehaviour
             return;
         }
     }
+
+    public void ClearSpawnedBlocks()
+    {
+        foreach (Transform child in transform) // BlockSpawnerの子（SpawnerPoint_xxx）に対して
+        {
+            if (child.name.StartsWith("SpawnerPoint"))
+            {
+                if (child.childCount > 0)
+                {
+                    Destroy(child.GetChild(0).gameObject);
+                }
+            }
+        }
+    }
 }

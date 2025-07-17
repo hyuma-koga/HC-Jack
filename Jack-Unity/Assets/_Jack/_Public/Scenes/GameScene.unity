@@ -1246,6 +1246,7 @@ MonoBehaviour:
   gameUI: {fileID: 222759473}
   gameOverUI: {fileID: 88620722}
   scoreManager: {fileID: 895914294}
+  spawner: {fileID: 203772761}
 --- !u!1 &839671636
 GameObject:
   m_ObjectHideFlags: 0

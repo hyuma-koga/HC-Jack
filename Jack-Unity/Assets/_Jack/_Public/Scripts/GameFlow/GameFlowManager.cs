@@ -6,6 +6,16 @@ public class GameFlowManager : MonoBehaviour
     [SerializeField] private GameUI gameUI;
     [SerializeField] private GameOverUI gameOverUI;
     [SerializeField] private ScoreManager scoreManager;
+    [SerializeField] private BlockSpawner spawner;
+
+    private BoardManager boardManager;
+    private BlockSpawner blockSpawner;
+
+    private void Awake()
+    {
+        boardManager = FindFirstObjectByType<BoardManager>();
+        blockSpawner = FindFirstObjectByType<BlockSpawner>();
+    }
 
     private void Start()
     {
@@ -23,7 +33,6 @@ public class GameFlowManager : MonoBehaviour
     {
         titleUI.Hide();
         gameOverUI.Hide();
-        scoreManager.ResetScore();
         gameUI.Show();
         gameUI.UpdateScore(scoreManager.CurrentScore, scoreManager.BestScore);
 
@@ -32,6 +41,16 @@ public class GameFlowManager : MonoBehaviour
 
     private void StartGame()
     {
+        if (blockSpawner != null)
+        {
+            blockSpawner.ClearSpawnedBlocks();
+            blockSpawner.SpawnBlocks();
+        }
+
+        if (boardManager != null)
+        {
+            boardManager.GetPlacer()?.ResetOccupied();
+        }
         Debug.Log("ゲーム開始！");
     }
 
@@ -45,6 +64,13 @@ public class GameFlowManager : MonoBehaviour
 
     public void OnReturnToTitle()
     {
+        if (boardManager != null)
+        {
+            Debug.Log($"Board 上のブロックを削除: {boardManager.BoardBlocksRoot.childCount} 個");
+            boardManager.ClearAllBlocks();
+        }
+
+        scoreManager.ResetScore();
         ShowTitle();
     }
 

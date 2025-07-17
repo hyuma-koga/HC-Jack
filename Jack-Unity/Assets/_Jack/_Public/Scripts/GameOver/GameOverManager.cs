@@ -59,11 +59,4 @@ public class GameOverManager : MonoBehaviour
         isGameOver = false;
         gameOverUI?.Hide();
     }
-
-    public void BackToTitle()
-    {
-        Debug.Log("Back to Title!");
-        isGameOver = false;
-        gameOverUI?.Hide();
-    }
 }

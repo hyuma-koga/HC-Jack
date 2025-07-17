@@ -151,20 +151,31 @@ public class BoardPlacer : MonoBehaviour
     }
 
     public bool CanPlaceBlockAnywhere(bool[,] shape)
-{
-    int boardSize = occupied.GetLength(0);
-
-    for (int y = 0; y <= boardSize - shape.GetLength(1); y++)
     {
-        for (int x = 0; x <= boardSize - shape.GetLength(0); x++)
-        {
-            if (CanPlaceBlock(shape, x, y))
+      int boardSize = occupied.GetLength(0);
+
+     for (int y = 0; y <= boardSize - shape.GetLength(1); y++)
+     {
+            for (int x = 0; x <= boardSize - shape.GetLength(0); x++)
             {
-                return true; // 置ける場所がある
+              if (CanPlaceBlock(shape, x, y))
+             {
+                  return true; // 置ける場所がある
+              }
+          }
+        }
+
+     return false; // どこにも置けない
+    }
+
+    public void ResetOccupied()
+    {
+        for (int x = 0; x < boardSize; x++)
+        {
+            for (int y = 0; y < boardSize; y++)
+            {
+                occupied[x, y] = false;
             }
         }
     }
-    return false; // どこにも置けない
-}
-
 }

@@ -57,4 +57,12 @@ public class BoardManager : MonoBehaviour
     {
         return placer;
     }
+
+    public void ClearAllBlocks()
+    {
+        foreach (Transform child in boardBlocksRoot)
+        {
+            Destroy(child.gameObject);
+        }
+    }
 }
