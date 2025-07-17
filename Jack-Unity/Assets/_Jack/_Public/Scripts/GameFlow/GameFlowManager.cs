@@ -2,11 +2,12 @@ using UnityEngine;
 
 public class GameFlowManager : MonoBehaviour
 {
-    [SerializeField] private TitleUI titleUI;
-    [SerializeField] private GameUI gameUI;
-    [SerializeField] private GameOverUI gameOverUI;
-    [SerializeField] private ScoreManager scoreManager;
-    [SerializeField] private BlockSpawner spawner;
+    [SerializeField] private TitleUI            titleUI;
+    [SerializeField] private GameUI             gameUI;
+    [SerializeField] private GameOverUI         gameOverUI;
+    [SerializeField] private ScoreManager       scoreManager;
+    [SerializeField] private BlockSpawner       spawner;
+    [SerializeField] private IntroAnimator      introAnimator;
 
     private BoardManager boardManager;
     private BlockSpawner blockSpawner;
@@ -36,7 +37,18 @@ public class GameFlowManager : MonoBehaviour
         gameUI.Show();
         gameUI.UpdateScore(scoreManager.CurrentScore, scoreManager.BestScore);
 
-        StartGame();
+        if (introAnimator != null)
+        {
+            introAnimator.OnAnimationComplete = () =>
+            {
+                StartGame();
+            };
+            introAnimator.Play();
+        }
+        else
+        {
+            StartGame();
+        }
     }
 
     private void StartGame()
@@ -51,12 +63,10 @@ public class GameFlowManager : MonoBehaviour
         {
             boardManager.GetPlacer()?.ResetOccupied();
         }
-        Debug.Log("ゲーム開始！");
     }
 
     public void OnGameOver()
     {
-        Debug.Log($" OnGameOver() 呼び出し: Score = {scoreManager.CurrentScore}, Best = {scoreManager.BestScore}");
         gameUI.Hide();
         gameOverUI.Show();
         gameOverUI.UpdateScore(scoreManager.CurrentScore, scoreManager.BestScore);
@@ -66,7 +76,6 @@ public class GameFlowManager : MonoBehaviour
     {
         if (boardManager != null)
         {
-            Debug.Log($"Board 上のブロックを削除: {boardManager.BoardBlocksRoot.childCount} 個");
             boardManager.ClearAllBlocks();
         }
 

@@ -51,6 +51,12 @@ public class BlockSpawner : MonoBehaviour
                 draggable.SetScale(0.5f);
             }
         }
+
+        var gameOverManager = FindFirstObjectByType<GameOverManager>();
+        if (gameOverManager != null)
+        {
+            gameOverManager.CheckGameOver(spawnPoints);
+        }
     }
 
     public void OnBlockPlaced()

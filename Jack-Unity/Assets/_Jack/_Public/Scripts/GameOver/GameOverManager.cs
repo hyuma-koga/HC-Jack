@@ -4,6 +4,7 @@ public class GameOverManager : MonoBehaviour
 {
     [SerializeField] private GameOverUI      gameOverUI;
     [SerializeField] private GameFlowManager gameFlowManager;
+    [SerializeField] private GameOverAnimator gameOverAnimator;
 
     private BoardManager boardManager;
     private BoardPlacer  placer;
@@ -48,8 +49,13 @@ public class GameOverManager : MonoBehaviour
 
         isGameOver = true;
 
-        gameFlowManager?.OnGameOver();
-        gameOverUI?.Show();
+        gameOverAnimator.Play();
+        gameOverAnimator.OnAnimationComplete = () =>
+        {
+            gameFlowManager?.OnGameOver();
+            gameOverUI?.Show();
+            gameOverAnimator.ClearAnimationCells();
+        };
     }
 
     public void Retry()
