@@ -66,11 +66,11 @@ public class BlockDraggable : MonoBehaviour
             float snappedY = -gridY * boardManager.CellSize + boardManager.BoardOrigin.y;
             transform.position = new Vector3(snappedX, snappedY, transform.position.z);
 
-            //親オブジェクトをボードのブロックルートに変更
+            //Note: 親オブジェクトをボードのブロックルートに変更.
             transform.SetParent(boardManager.BoardBlocksRoot);
             isLocked = true;
 
-            //行列をチェック
+            //Note: 行列をチェック.
             var fullRows = placer.GetFullRows();
             var fullCols = placer.GetFullColumns();
 
@@ -144,10 +144,10 @@ public class BlockDraggable : MonoBehaviour
         float cellSize = boardManager.CellSize;
         Vector3 origin = boardManager.BoardOrigin;
 
-        //行の中心を加算
+        //Note: 行の中心を加算.
         foreach (int y in fullRows)
         {
-            for (int x = 0; x < 8; x++)  //boardSizeが8
+            for (int x = 0; x < 8; x++)
             {
                 float px = origin.x + x * cellSize;
                 float py = origin.y - y * cellSize;
@@ -156,7 +156,7 @@ public class BlockDraggable : MonoBehaviour
             }
         }
 
-        //列の中心を加算
+        //Note: 列の中心を加算.
         foreach (int x in fullCols)
         {
             for (int y = 0; y < 8; y++)

@@ -8,7 +8,6 @@ public static class Shape_Square
     {
         var shapes = new List<bool[,]>();
 
-        //3マス×3マス
         bool[,] full = new bool[3, 3];
         
         for (int x = 0; x < 3; x++)

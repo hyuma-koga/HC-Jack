@@ -30,7 +30,7 @@ public class BlockFactory : MonoBehaviour
         int width = data.size.x;
         int height = data.size.y;
 
-        //子ブロック生成
+        //Note: 子ブロック生成.
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
@@ -49,7 +49,7 @@ public class BlockFactory : MonoBehaviour
                     renderer.sprite = selectedSprite;
                 }
 
-                //子にはColliderを追加しない(バラバラになる)
+                //Note: 子にはColliderを追加しない(バラバラになる).
                 var childCollider = unit.GetComponent<Collider2D>();
 
                 if (childCollider != null)

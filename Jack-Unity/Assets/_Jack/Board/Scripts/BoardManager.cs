@@ -8,10 +8,9 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private Transform      boardBlocksRoot;
     [SerializeField] private float          cellSize = 0.5f;
 
-    //上の変数に揃えるべき？
-    public Transform BoardBlocksRoot => boardBlocksRoot;
-    public Vector3   BoardOrigin => boardSpawnPoint != null ? boardSpawnPoint.position : Vector3.zero;
-    public float     CellSize => cellSize;
+    public Transform                        BoardBlocksRoot => boardBlocksRoot;
+    public Vector3                          BoardOrigin => boardSpawnPoint != null ? boardSpawnPoint.position : Vector3.zero;
+    public float                            CellSize => cellSize;
 
     private void Awake()
     {
@@ -36,7 +35,7 @@ public class BoardManager : MonoBehaviour
         generator.GenerateBoard();
     }
 
-    //配置判定インターフェース
+    //Note: 配置判定インターフェース.
     public bool TryPlaceBlock(bool[,] shape, int startX, int startY, GameObject blockObj)
     {
         if (placer.CanPlaceBlock(shape, startX, startY))
@@ -48,7 +47,7 @@ public class BoardManager : MonoBehaviour
         return false;
     }
 
-    //ワールド座標をボードグリッド座標に変換
+    //Note: ワールド座標をボードグリッド座標に変換.
     public Vector2Int WorldToGrid(Vector3 worldPos)
     {
         Vector3 localPos = worldPos - BoardOrigin;

@@ -29,7 +29,6 @@ public class BlockData : ScriptableObject
             }
         }
 
-        //切り出すサイズ
         int newWidth = maxX - minX + 1;
         int newHeight = maxY - minY + 1;
 

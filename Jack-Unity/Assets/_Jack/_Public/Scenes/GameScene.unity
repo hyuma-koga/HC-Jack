@@ -690,9 +690,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameUI: {fileID: 1688293253}
+  optionUI: {fileID: 2054084559}
   currentScoreText: {fileID: 2045340893}
   bestScoreText: {fileID: 545432403}
-  optionUI: {fileID: 2054084559}
 --- !u!1 &249282756
 GameObject:
   m_ObjectHideFlags: 0
@@ -1460,9 +1460,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cellPrefab: {fileID: 7262906021501602270, guid: 36ec59042e426d8418b78f0da14e7558, type: 3}
-  boardSize: 8
-  cellSize: 0.5
-  rowDelay: 0.05
   cellRoot: {fileID: 249282757}
   originTransform: {fileID: 249282757}
   cellSprites:
@@ -1474,6 +1471,9 @@ MonoBehaviour:
   - {fileID: 21300000, guid: e5064ab11d903d640a3f08b65fe22c08, type: 3}
   - {fileID: 21300000, guid: 5b3a1c4f2d2e1f846a6e76cd2c5aa23b, type: 3}
   - {fileID: 21300000, guid: d4d464255adb8b3489f667a17e72b2a3, type: 3}
+  boardSize: 8
+  cellSize: 0.5
+  rowDelay: 0.05
 --- !u!1 &768154712
 GameObject:
   m_ObjectHideFlags: 0
@@ -1521,9 +1521,9 @@ MonoBehaviour:
   titleUI: {fileID: 1387090749}
   gameUI: {fileID: 222759473}
   gameOverUI: {fileID: 88620722}
-  scoreManager: {fileID: 895914294}
   blockSpawner: {fileID: 203772761}
   introAnimator: {fileID: 762470349}
+  scoreManager: {fileID: 895914294}
   boardManager: {fileID: 958571493}
 --- !u!1 &839671636
 GameObject:
@@ -2328,10 +2328,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cellPrefab: {fileID: 7262906021501602270, guid: 36ec59042e426d8418b78f0da14e7558, type: 3}
-  boardSize: 8
-  cellSize: 0.5
-  rowDelay: 0.1
-  waitAfterCover: 2
   cellRoot: {fileID: 249282757}
   originTransform: {fileID: 249282757}
   cellSprites:
@@ -2343,6 +2339,10 @@ MonoBehaviour:
   - {fileID: 21300000, guid: a4dd387ce6156d84786bddbd2663dedc, type: 3}
   - {fileID: 21300000, guid: 5b3a1c4f2d2e1f846a6e76cd2c5aa23b, type: 3}
   - {fileID: 21300000, guid: d4d464255adb8b3489f667a17e72b2a3, type: 3}
+  cellSize: 0.5
+  rowDelay: 0.1
+  waitAfterCover: 2
+  boardSize: 8
 --- !u!1 &1252169326
 GameObject:
   m_ObjectHideFlags: 0
@@ -2439,7 +2439,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1362011297
 RectTransform:
   m_ObjectHideFlags: 0

@@ -10,7 +10,6 @@ public class BoardGenerator : MonoBehaviour
     public float                        CellSpacing => cellSpacing;
     public int                          BoardSize => boardSize;
    
-    //Note:ボードのセルを生成する
     public void GenerateBoard()
     {
         if (cellPrefab == null)

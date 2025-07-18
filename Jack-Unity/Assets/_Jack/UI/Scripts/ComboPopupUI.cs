@@ -21,7 +21,7 @@ public class ComboPopupUI : MonoBehaviour
             return;
         }
 
-        //ワールド座標からスクリーン座標へ
+        //Note: ワールド座標からスクリーン座標へ.
         Vector2 screenPos = cam.WorldToScreenPoint(worldPos);
         popup.transform.position = screenPos;
 

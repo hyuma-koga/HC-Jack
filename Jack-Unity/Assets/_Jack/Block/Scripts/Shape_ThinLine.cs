@@ -7,7 +7,6 @@ public static class Shape_ThinLine
     {
         var shapes = new List<bool[,]>();
 
-        //â°ÇPÉ}ÉX&èc 2Å`5É}ÉX
         for (int h = 2; h <= 5; h++)
         {
             bool[,] shape = new bool[1, h];
@@ -20,7 +19,6 @@ public static class Shape_ThinLine
             shapes.Add(shape);
         }
 
-        //â°2Å`5É}ÉX&èc1É}ÉX
         for ( int w = 2; w <= 5; w++)
         {
             bool[,] shape = new bool[w, 1];

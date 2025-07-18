@@ -46,7 +46,6 @@ public class GameFlowManager : MonoBehaviour
 
     private void StartGame()
     {
-        //すでにボード上にブロックがある場合何もしない
         if (boardManager.HasAnyPlacedBlock())
         {
             return;

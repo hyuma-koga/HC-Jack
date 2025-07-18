@@ -15,20 +15,17 @@ public class OptionUI : MonoBehaviour
         optionUI.SetActive(false);
     }
 
-    //閉じるボタン
     public void OnClickClose()
     {
         Hide();
     }
 
-    //セーブしてタイトルに戻るボタン
     public void OnClickSaveAndReturnToTitle()
     {
         gameFlowManager.OnSaveAndReturnToTitle();
         Hide();
     }
 
-    //リトライボタン
     public void OnClickRetry()
     {
         gameFlowManager.OnRetryRequested();

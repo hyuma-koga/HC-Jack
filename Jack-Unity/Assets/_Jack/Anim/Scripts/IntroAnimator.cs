@@ -12,7 +12,7 @@ public class IntroAnimator : MonoBehaviour
     [SerializeField] private float      cellSize = 0.5f;
     [SerializeField] private float      rowDelay = 0.05f;
   
-    public Action OnAnimationComplete;
+    public Action                       OnAnimationComplete;
 
     public void Play()
     {

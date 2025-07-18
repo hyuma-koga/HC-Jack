@@ -28,7 +28,7 @@ public class BlockSpawner : MonoBehaviour
     {
         var shapes = ShapeGenerator.GenerateAllShapes();
 
-        //スコアマネージャにターン開始通知
+        //Note: スコアマネージャにターン開始通知.
         var scoreManager = FindFirstObjectByType<ScoreManager>();
         if (scoreManager != null)
         {
@@ -52,7 +52,6 @@ public class BlockSpawner : MonoBehaviour
             }
         }
 
-        //Spawn後にゲームオーバーのチェック
         Invoke(nameof(CheckGameOverAfterSpawn), 0.1f);
     }
 
@@ -93,7 +92,6 @@ public class BlockSpawner : MonoBehaviour
         var placer = boardManager.GetPlacer();
         var gameOverManager = FindFirstObjectByType<GameOverManager>();
 
-        //すべて使い切ったらターン終了
         if (AllPointsEmpty())
         {
             var scoreManager = FindFirstObjectByType<ScoreManager>();
@@ -106,7 +104,6 @@ public class BlockSpawner : MonoBehaviour
             return;
         }
 
-        //ターン内の残りブロックを確認
         bool canPlaceAny = false;
 
         foreach (var spawnPoint in spawnPoints)
@@ -123,7 +120,6 @@ public class BlockSpawner : MonoBehaviour
             }
         }
 
-        //残りがすべて置けないならゲームオーバー
         if (!canPlaceAny)
         {
             if (gameOverManager != null)

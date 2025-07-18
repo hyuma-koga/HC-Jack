@@ -52,7 +52,6 @@ public class ScoreManager : MonoBehaviour
         lineClearedThisTurn = true;
         comboManager.AddCombo(linesCleared);
 
-        //ポップアップ表示
         if (comboPopupUI != null)
         {
             comboPopupUI.ShowPopup(popupPos, comboCount, totalScore);

@@ -22,13 +22,13 @@ public class BoardPlacer : MonoBehaviour
         int shapeWidth = shape.GetLength(0);
         int shapeHeight = shape.GetLength(1);
 
-        //範囲外のチェック
+        //Note: 範囲外のチェック.
         if (startX < 0 || startY < 0 || startX + shapeWidth > boardSize || startY + shapeHeight > boardSize) 
         {
             return false;
         } 
 
-        //他のブロックと重ならないか確認
+        //Note: 他のブロックと重ならないか確認.
         for (int y = 0; y < shapeHeight; y++)
         {
             for (int x = 0; x < shapeWidth; x++)
@@ -48,7 +48,7 @@ public class BoardPlacer : MonoBehaviour
         int shapeWidth = shape.GetLength(0);
         int shapeHeight = shape.GetLength(1);
 
-        // occupiedの更新（そのマスにすでにブロックが置かれているか）
+        //Note: occupiedの更新（そのマスにすでにブロックが置かれているか）.
         for (int y = 0; y < shapeHeight; y++)
         {
             for (int x = 0; x < shapeWidth; x++)

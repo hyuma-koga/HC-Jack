@@ -37,7 +37,7 @@ public class GameOverManager : MonoBehaviour
             var block = spawnPoint.GetChild(0);
             var data = block.GetComponent<BlockComponent>().data;
 
-            //1つでも置けるならゲームを続行
+            //Note: 1つでも置けるならゲームを続行.
             if (placer.CanPlaceBlockAnywhere(data.shape))
             {
                 return; 
