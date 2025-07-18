@@ -5,13 +5,12 @@ public class BlockFactory : MonoBehaviour
     [SerializeField] private GameObject blockUnitPrefab;
     [SerializeField] private Sprite     defaultSprite;
 
-    public Sprite DefaultSprite => defaultSprite;
+    public Sprite                       DefaultSprite => defaultSprite;
     public float                        spacing = 0.5f;
    
     public GameObject CreateBlock(BlockData data)
     {
         var blockRoot = new GameObject("BlockPiece");
-
         Sprite selectedSprite = null;
 
         if (data.blockSprites != null && data.blockSprites.Length > 0)
@@ -31,7 +30,7 @@ public class BlockFactory : MonoBehaviour
         int width = data.size.x;
         int height = data.size.y;
 
-        // 子ブロック生成
+        //子ブロック生成
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
@@ -43,7 +42,6 @@ public class BlockFactory : MonoBehaviour
 
                 var unit = Instantiate(blockUnitPrefab, blockRoot.transform);
                 unit.transform.localPosition = new Vector3(x * spacing, -y * spacing, 0);
-
                 var renderer = unit.GetComponent<SpriteRenderer>();
 
                 if (renderer != null && selectedSprite != null)
@@ -51,7 +49,7 @@ public class BlockFactory : MonoBehaviour
                     renderer.sprite = selectedSprite;
                 }
 
-                // 子には Collider を追加しない
+                //子にはColliderを追加しない(バラバラになる)
                 var childCollider = unit.GetComponent<Collider2D>();
 
                 if (childCollider != null)
@@ -73,7 +71,6 @@ public class BlockFactory : MonoBehaviour
         comp.data = data;
 
         blockRoot.AddComponent<BlockDraggable>();
-
         return blockRoot;
     }
 }

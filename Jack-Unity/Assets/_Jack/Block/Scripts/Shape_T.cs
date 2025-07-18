@@ -7,7 +7,7 @@ public static class Shape_T
     {
         var shapes = new List<bool[,]>();
 
-        // 3x2 T Œ^
+        //3x2
         shapes.Add(new bool[,]
         {
             { true, true, true },
@@ -20,7 +20,7 @@ public static class Shape_T
             { true, true, true }
         });
 
-        // 2x3 T Œ^
+        //2x3
         shapes.Add(new bool[,]
         {
             { false, true },

@@ -12,9 +12,13 @@ public class BlockRemover : MonoBehaviour
         foreach (Transform block in boardBlocksRoot)
         {
             var comp = block.GetComponent<BlockComponent>();
-            if (comp == null) continue;
+            if (comp == null)
+            {
+                continue;
+            }
 
             var unitList = new List<Transform>();
+
             foreach (Transform child in block)
             {
                 unitList.Add(child);
@@ -33,6 +37,7 @@ public class BlockRemover : MonoBehaviour
                 }
             }
         }
+
         return removedCells;
     }
 
@@ -43,9 +48,14 @@ public class BlockRemover : MonoBehaviour
         foreach (Transform block in boardBlocksRoot)
         {
             var comp = block.GetComponent<BlockComponent>();
-            if (comp == null) continue;
+
+            if (comp == null)
+            {
+                continue;
+            }
 
             var unitList = new List<Transform>();
+
             foreach (Transform child in block)
             {
                 unitList.Add(child);
@@ -64,6 +74,7 @@ public class BlockRemover : MonoBehaviour
                 }
             }
         }
+
         return removedCells;
     }
 }

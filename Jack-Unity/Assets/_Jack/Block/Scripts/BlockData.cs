@@ -4,7 +4,7 @@ using UnityEngine;
 public class BlockData : ScriptableObject
 {
     public Vector2Int size;
-    public bool[,]    shape;  　　　　 //ブロック形状を表す２次元配列
+    public bool[,]    shape;
     public Sprite[]   blockSprites;
 
     public void SetShape(bool[,] newShape)
@@ -12,7 +12,6 @@ public class BlockData : ScriptableObject
         int width = newShape.GetLength(0);
         int height = newShape.GetLength(1);
 
-        // 有効領域の最小・最大座標
         int minX = width, minY = height;
         int maxX = -1, maxY = -1;
 
@@ -30,7 +29,7 @@ public class BlockData : ScriptableObject
             }
         }
 
-        // 切り出すサイズ
+        //切り出すサイズ
         int newWidth = maxX - minX + 1;
         int newHeight = maxY - minY + 1;
 

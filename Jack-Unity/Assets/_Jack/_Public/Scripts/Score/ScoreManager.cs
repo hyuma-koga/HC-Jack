@@ -28,7 +28,10 @@ public class ScoreManager : MonoBehaviour
 
     public void AddLineClearScore(int linesCleared, Vector3 popupPos)
     {
-        if (linesCleared <= 0) return;
+        if (linesCleared <= 0)
+        {
+            return;
+        }
 
         int baseLineScore = linesCleared switch
         {
@@ -47,10 +50,9 @@ public class ScoreManager : MonoBehaviour
 
         currentScore += totalScore;
         lineClearedThisTurn = true;
-
         comboManager.AddCombo(linesCleared);
 
-        //  ポップアップ表示
+        //ポップアップ表示
         if (comboPopupUI != null)
         {
             comboPopupUI.ShowPopup(popupPos, comboCount, totalScore);

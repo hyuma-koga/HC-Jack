@@ -19,7 +19,6 @@ public class GameOverUI : MonoBehaviour
 
     public void UpdateScore(int current, int best)
     {
-        Debug.Log($"GameOverUI.UpdateScore() é¿çs: {current} / {best}");
         currentScoreText.text = $"{current}";
         bestScoreText.text = $"{best}";
     }

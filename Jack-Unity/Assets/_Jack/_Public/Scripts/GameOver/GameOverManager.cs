@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class GameOverManager : MonoBehaviour
 {
-    [SerializeField] private GameOverUI      gameOverUI;
-    [SerializeField] private GameFlowManager gameFlowManager;
+    [SerializeField] private GameOverUI       gameOverUI;
+    [SerializeField] private GameFlowManager  gameFlowManager;
     [SerializeField] private GameOverAnimator gameOverAnimator;
 
-    private BoardManager boardManager;
-    private BoardPlacer  placer;
-    private BlockSpawner spawner;
-    private bool         isGameOver = false;
+    private BoardManager                      boardManager;
+    private BoardPlacer                       placer;
+    private BlockSpawner                      spawner;
+    private bool                              isGameOver = false;
 
 
     private void Awake()
@@ -29,14 +29,18 @@ public class GameOverManager : MonoBehaviour
 
         foreach (var spawnPoint in spawnPoints)
         {
-            if (spawnPoint.childCount == 0) continue;
+            if (spawnPoint.childCount == 0) 
+            {
+                continue;
+            } 
 
             var block = spawnPoint.GetChild(0);
             var data = block.GetComponent<BlockComponent>().data;
 
+            //1つでも置けるならゲームを続行
             if (placer.CanPlaceBlockAnywhere(data.shape))
             {
-                return; // 1つでも置けるならゲーム続行
+                return; 
             }
         }
 
@@ -45,12 +49,10 @@ public class GameOverManager : MonoBehaviour
 
     public void TriggerGameOver()
     {
-        Debug.Log("Game Over!");
-
         isGameOver = true;
 
         gameOverAnimator.Play();
-        gameOverAnimator.OnAnimationComplete = () =>
+        gameOverAnimator.onAnimationComplete = () =>
         {
             gameFlowManager?.OnGameOver();
             gameOverUI?.Show();
@@ -60,8 +62,6 @@ public class GameOverManager : MonoBehaviour
 
     public void Retry()
     {
-        Debug.Log("Retry!");
-
         isGameOver = false;
         gameOverUI?.Hide();
     }

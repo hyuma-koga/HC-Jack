@@ -28,7 +28,7 @@ public class BlockSpawner : MonoBehaviour
     {
         var shapes = ShapeGenerator.GenerateAllShapes();
 
-        // スコアマネージャにターン開始通知
+        //スコアマネージャにターン開始通知
         var scoreManager = FindFirstObjectByType<ScoreManager>();
         if (scoreManager != null)
         {
@@ -51,8 +51,9 @@ public class BlockSpawner : MonoBehaviour
                 draggable.SetScale(0.5f);
             }
         }
-        // 🔽 新しく追加：Spawn後すぐチェック
-        Invoke(nameof(CheckGameOverAfterSpawn), 0.1f); // 少し遅延してから確認（生成が完了してから）
+
+        //Spawn後にゲームオーバーのチェック
+        Invoke(nameof(CheckGameOverAfterSpawn), 0.1f);
     }
 
     private void CheckGameOverAfterSpawn()
@@ -65,7 +66,10 @@ public class BlockSpawner : MonoBehaviour
 
         foreach (var spawnPoint in spawnPoints)
         {
-            if (spawnPoint.childCount == 0) continue;
+            if (spawnPoint.childCount == 0)
+            {
+                continue;
+            }
 
             var block = spawnPoint.GetChild(0);
             var data = block.GetComponent<BlockComponent>().data;
@@ -79,7 +83,7 @@ public class BlockSpawner : MonoBehaviour
 
         if (!canPlaceAny && gameOverManager != null)
         {
-            gameOverManager.TriggerGameOver(); // ★ アニメーション付きでゲームオーバー
+            gameOverManager.TriggerGameOver();
         }
     }
 
@@ -89,7 +93,7 @@ public class BlockSpawner : MonoBehaviour
         var placer = boardManager.GetPlacer();
         var gameOverManager = FindFirstObjectByType<GameOverManager>();
 
-        // すべて使い切った場合は判定スキップ
+        //すべて使い切ったらターン終了
         if (AllPointsEmpty())
         {
             var scoreManager = FindFirstObjectByType<ScoreManager>();
@@ -99,11 +103,12 @@ public class BlockSpawner : MonoBehaviour
             }
 
             SpawnBlocks();
-            return; // ← これ重要！！ ここで以降の処理を止める
+            return;
         }
 
-        // 残りブロック確認（ターン中）
+        //ターン内の残りブロックを確認
         bool canPlaceAny = false;
+
         foreach (var spawnPoint in spawnPoints)
         {
             if (spawnPoint.childCount == 0) continue;
@@ -118,20 +123,21 @@ public class BlockSpawner : MonoBehaviour
             }
         }
 
-        // 残りがすべて置けないならゲームオーバー
+        //残りがすべて置けないならゲームオーバー
         if (!canPlaceAny)
         {
             if (gameOverManager != null)
             {
                 gameOverManager.TriggerGameOver();
             }
+
             return;
         }
     }
 
     public void ClearSpawnedBlocks()
     {
-        foreach (Transform child in transform) // BlockSpawnerの子（SpawnerPoint_xxx）に対して
+        foreach (Transform child in transform)
         {
             if (child.name.StartsWith("SpawnerPoint"))
             {

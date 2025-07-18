@@ -20,38 +20,6 @@ public static class Shape_Square
         }
 
         shapes.Add(full);
-
-        //Lšƒpƒ^[ƒ“
-        List<bool[,]> IShapes = new List<bool[,]>
-        {
-            new bool[,]
-            {
-                {true, false, false },
-                {true, false, false },
-                {true, true, true }
-            },
-            new bool[,]
-            {
-                { false, false, true },
-                { false, false, true },
-                { true, true, true }
-            },
-            new bool[,]
-            {
-                { true, true, true },
-                { true, false, false },
-                { true, false, false }
-            },
-            new bool[,]
-            {
-                { true, true, true },
-                { false, false, true },
-                { false, false, true }
-            }
-        };
-
-        shapes.AddRange(IShapes);
-
         return shapes;
     }
 }

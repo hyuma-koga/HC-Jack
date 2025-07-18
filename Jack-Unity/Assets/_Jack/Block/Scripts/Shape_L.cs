@@ -7,7 +7,6 @@ public static class Shape_L
     {
         var shapes = new List<bool[,]>();
 
-        //LŒ^
         shapes.Add(new bool[,]
         {
             { true, true, true },

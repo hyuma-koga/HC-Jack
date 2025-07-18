@@ -4,6 +4,7 @@ using TMPro;
 public class GameUI : MonoBehaviour
 {
     [SerializeField] private GameObject gameUI;
+    [SerializeField] private OptionUI   optionUI;
     [SerializeField] private TMP_Text   currentScoreText;
     [SerializeField] private TMP_Text   bestScoreText;
 
@@ -11,6 +12,7 @@ public class GameUI : MonoBehaviour
     {
         gameUI.SetActive(true);
     }
+
     public void Hide()
     {
         gameUI.SetActive(false); 
@@ -20,5 +22,10 @@ public class GameUI : MonoBehaviour
     {
         currentScoreText.text = $"{current}";
         bestScoreText.text = $"{best}";
+    }
+
+    public void OnOptionButtonPressed()
+    {
+        optionUI.Show();
     }
 }

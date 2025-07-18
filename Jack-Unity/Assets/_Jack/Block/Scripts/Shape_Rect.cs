@@ -7,7 +7,7 @@ public static class Shape_Rect
     {
         var shapes = new List<bool[,]>();
 
-        //â°2É}ÉX & èc1Å`3É}ÉX
+        //â°2É}ÉX&èc1Å`3É}ÉX
         for (int h = 1; h < 3; h++)
         {
             bool[,] shape = new bool[2, h];
@@ -19,10 +19,11 @@ public static class Shape_Rect
                     shape[x, y] = true;
                 }
             } 
+
             shapes.Add(shape);
         }
 
-        //â°3É}ÉX & èc1Å`3É}ÉX
+        //â°3É}ÉX&èc1Å`3É}ÉX
         for (int h = 1; h <= 3; h++)
         {
             bool[,] shape = new bool[3, h];

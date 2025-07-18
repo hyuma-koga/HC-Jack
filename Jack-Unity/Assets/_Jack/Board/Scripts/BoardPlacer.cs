@@ -22,13 +22,13 @@ public class BoardPlacer : MonoBehaviour
         int shapeWidth = shape.GetLength(0);
         int shapeHeight = shape.GetLength(1);
 
-        // 範囲外チェック
+        //範囲外のチェック
         if (startX < 0 || startY < 0 || startX + shapeWidth > boardSize || startY + shapeHeight > boardSize) 
         {
             return false;
         } 
 
-        // 他のブロックと重ならないか確認
+        //他のブロックと重ならないか確認
         for (int y = 0; y < shapeHeight; y++)
         {
             for (int x = 0; x < shapeWidth; x++)
@@ -48,7 +48,7 @@ public class BoardPlacer : MonoBehaviour
         int shapeWidth = shape.GetLength(0);
         int shapeHeight = shape.GetLength(1);
 
-        // occupied を更新
+        // occupiedの更新（そのマスにすでにブロックが置かれているか）
         for (int y = 0; y < shapeHeight; y++)
         {
             for (int x = 0; x < shapeWidth; x++)
@@ -154,18 +154,17 @@ public class BoardPlacer : MonoBehaviour
     {
       int boardSize = occupied.GetLength(0);
 
-     for (int y = 0; y <= boardSize - shape.GetLength(1); y++)
-     {
-            for (int x = 0; x <= boardSize - shape.GetLength(0); x++)
+    for (int y = 0; y <= boardSize - shape.GetLength(1); y++)
+    {
+        for (int x = 0; x <= boardSize - shape.GetLength(0); x++)
+        {
+            if (CanPlaceBlock(shape, x, y))
             {
-              if (CanPlaceBlock(shape, x, y))
-             {
-                  return true; // 置ける場所がある
-              }
-          }
+                return true;
+            }
         }
-
-     return false; // どこにも置けない
+    }
+        return false;
     }
 
     public void ResetOccupied()
@@ -205,5 +204,4 @@ public class BoardPlacer : MonoBehaviour
 
         return cleared;
     }
-
 }

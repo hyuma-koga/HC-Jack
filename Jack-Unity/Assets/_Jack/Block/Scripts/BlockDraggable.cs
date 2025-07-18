@@ -66,11 +66,11 @@ public class BlockDraggable : MonoBehaviour
             float snappedY = -gridY * boardManager.CellSize + boardManager.BoardOrigin.y;
             transform.position = new Vector3(snappedX, snappedY, transform.position.z);
 
-            // 親をボードのブロックルートに変更
+            //親オブジェクトをボードのブロックルートに変更
             transform.SetParent(boardManager.BoardBlocksRoot);
             isLocked = true;
 
-            // 行列チェック
+            //行列をチェック
             var fullRows = placer.GetFullRows();
             var fullCols = placer.GetFullColumns();
 
@@ -98,6 +98,7 @@ public class BlockDraggable : MonoBehaviour
             }
 
             var spawner = FindFirstObjectByType<BlockSpawner>();
+
             if (spawner != null)
             {
                 spawner.OnBlockPlaced();
@@ -126,6 +127,7 @@ public class BlockDraggable : MonoBehaviour
                 }
             }
         }
+
         return count;
     }
 
@@ -142,10 +144,10 @@ public class BlockDraggable : MonoBehaviour
         float cellSize = boardManager.CellSize;
         Vector3 origin = boardManager.BoardOrigin;
 
-        // 行の中心を加算
+        //行の中心を加算
         foreach (int y in fullRows)
         {
-            for (int x = 0; x < 8; x++)  // boardSize = 8
+            for (int x = 0; x < 8; x++)  //boardSizeが8
             {
                 float px = origin.x + x * cellSize;
                 float py = origin.y - y * cellSize;
@@ -154,7 +156,7 @@ public class BlockDraggable : MonoBehaviour
             }
         }
 
-        // 列の中心を加算（重複してもOK）
+        //列の中心を加算
         foreach (int x in fullCols)
         {
             for (int y = 0; y < 8; y++)
@@ -166,8 +168,11 @@ public class BlockDraggable : MonoBehaviour
             }
         }
 
-        if (count == 0) return origin;
+        if (count == 0)
+        {
+            return origin;
+        }
+
         return totalPos / count;
     }
-
 }

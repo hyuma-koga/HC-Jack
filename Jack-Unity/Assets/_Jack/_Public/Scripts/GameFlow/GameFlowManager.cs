@@ -2,21 +2,13 @@ using UnityEngine;
 
 public class GameFlowManager : MonoBehaviour
 {
-    [SerializeField] private TitleUI            titleUI;
-    [SerializeField] private GameUI             gameUI;
-    [SerializeField] private GameOverUI         gameOverUI;
-    [SerializeField] private ScoreManager       scoreManager;
-    [SerializeField] private BlockSpawner       spawner;
-    [SerializeField] private IntroAnimator      introAnimator;
-
-    private BoardManager boardManager;
-    private BlockSpawner blockSpawner;
-
-    private void Awake()
-    {
-        boardManager = FindFirstObjectByType<BoardManager>();
-        blockSpawner = FindFirstObjectByType<BlockSpawner>();
-    }
+    [SerializeField] private TitleUI       titleUI;
+    [SerializeField] private GameUI        gameUI;
+    [SerializeField] private GameOverUI    gameOverUI;
+    [SerializeField] private BlockSpawner  blockSpawner;
+    [SerializeField] private IntroAnimator introAnimator;
+    [SerializeField] private ScoreManager  scoreManager;
+    [SerializeField] private BoardManager  boardManager;
 
     private void Start()
     {
@@ -43,6 +35,7 @@ public class GameFlowManager : MonoBehaviour
             {
                 StartGame();
             };
+
             introAnimator.Play();
         }
         else
@@ -53,16 +46,15 @@ public class GameFlowManager : MonoBehaviour
 
     private void StartGame()
     {
-        if (blockSpawner != null)
+        //すでにボード上にブロックがある場合何もしない
+        if (boardManager.HasAnyPlacedBlock())
         {
-            blockSpawner.ClearSpawnedBlocks();
-            blockSpawner.SpawnBlocks();
+            return;
         }
 
-        if (boardManager != null)
-        {
-            boardManager.GetPlacer()?.ResetOccupied();
-        }
+        blockSpawner.ClearSpawnedBlocks();
+        blockSpawner.SpawnBlocks();
+        boardManager.GetPlacer()?.ResetOccupied();
     }
 
     public void OnGameOver()
@@ -74,17 +66,29 @@ public class GameFlowManager : MonoBehaviour
 
     public void OnReturnToTitle()
     {
-        if (boardManager != null)
-        {
-            boardManager.ClearAllBlocks();
-        }
-
+        boardManager.ClearAllBlocks();
+        boardManager.GetPlacer()?.ResetOccupied();
         scoreManager.ResetScore();
+        ShowTitle();
+    }
+
+    public void OnSaveAndReturnToTitle()
+    {
         ShowTitle();
     }
 
     public void OnScoreChanged()
     {
+        gameUI.UpdateScore(scoreManager.CurrentScore, scoreManager.BestScore);
+    }
+
+    public void OnRetryRequested()
+    {
+        scoreManager.ResetScore();
+        boardManager.ClearAllBlocks();
+        boardManager.GetPlacer()?.ResetOccupied();
+        blockSpawner.ClearSpawnedBlocks();
+        blockSpawner.SpawnBlocks();
         gameUI.UpdateScore(scoreManager.CurrentScore, scoreManager.BestScore);
     }
 }
